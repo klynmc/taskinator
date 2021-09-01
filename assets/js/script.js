@@ -25,8 +25,8 @@ var taskFormHandler = function(event) {
   document.querySelector("input[name='task-name']").value = "";
   document.querySelector("select[name='task-type']").selectedIndex = 0;
 
-// check if task is new or one being edited by seeing if it has a data-task-id attribute
-var isEdit = formEl.hasAttribute("data-task-id");
+    // check if task is new or one being edited by seeing if it has a data-task-id attribute
+    var isEdit = formEl.hasAttribute("data-task-id");
 
     if (isEdit) {
         var taskId = formEl.getAttribute("data-task-id");
@@ -57,6 +57,10 @@ var createTaskEl = function(taskDataObj) {
     taskDataObj.id = taskIdCounter;
 
     tasks.push(taskDataObj);
+
+    var saveTasks = function() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
   
     // create task actions (buttons and select) for task
     var taskActionsEl = createTaskActions(taskIdCounter);
@@ -121,6 +125,10 @@ var completeEditTask = function(taskName, taskType, taskId) {
             tasks[i].type = taskType;
         }
     };
+
+    var saveTasks = function() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
   
     alert("Task Updated!");
   
@@ -146,7 +154,6 @@ var taskButtonHandler = function(event) {
 };
   
 var taskStatusChangeHandler = function(event) {
-    console.log(event.target.value);
   
     // find task list item based on event.target's data-task-id attribute
     var taskId = event.target.getAttribute("data-task-id");
@@ -170,7 +177,6 @@ var taskStatusChangeHandler = function(event) {
             tasks[i].status = statusValue;
         }
     }
-    console.log(tasks);
 };
   
 var editTask = function(taskId) {
@@ -215,7 +221,15 @@ var deleteTask = function(taskId) {
 
     //reassign tasks array to be the same as the updatedTaskArr
     tasks = updatedTaskArr;
+
+    var saveTasks = function() {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
 };
+
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
   // Create a new task
   formEl.addEventListener("submit", taskFormHandler);
